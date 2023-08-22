@@ -18,7 +18,7 @@ class LinkedList:
       if self.head is None:
          print("Stack Kosong")
       temp = self.head
-      llstr =''
+      llstr = ''
       while temp:
          llstr += str(temp.data) +"->"
          temp = temp.next
@@ -36,41 +36,47 @@ class LinkedList:
    def pop(self):
       if self.head is None:
          print("Stack Kosong")
+         return
       data = self.head.data
       self.head = self.head.next
+      print("data yang di pop adalah  " + data)
+      input('')
 
 
-   def swap(self,key1,key2):
-       #key = keyword
-       if key1 == key2:
-         return
+   def swap(self,index1,index2):
+        length = self.get_length()
 
-       PrevNode_Key1 =None
-       CurrNode_Key1 = self.head
-       while CurrNode_Key1 and CurrNode_Key1.data != key1:
-           PrevNode_Key1 = CurrNode_Key1
-           CurrNode_Key1 = CurrNode_Key1.next
+        if index1 < 0 or index1 >= length or index2 < 0 or index2 >= length:
+            print("Indeks tidak valid")
+            return
 
-       PrevNode_Key2 = None
-       CurrNode_Key2 = self.head
-       while CurrNode_Key2 and CurrNode_Key2.data != key2:
-           PrevNode_Key2 = CurrNode_Key2
-           CurrNode_Key2 = CurrNode_Key2.next
+        if index1 == index2:
+            print("Indeks sama, tidak ada yang perlu ditukar")
+            return
 
-       if not CurrNode_Key1 or not CurrNode_Key2:
-           return
-       
-       if PrevNode_Key1:
-           PrevNode_Key1.next = CurrNode_Key2
-       else:
-           self.head = CurrNode_Key2
-       if PrevNode_Key2:
-           PrevNode_Key2.next = CurrNode_Key1
-       else:
-           self.head = CurrNode_Key1
+        prev_node1 = None
+        node1 = self.head
+        for _ in range(index1):
+            prev_node1 = node1
+            node1 = node1.next
 
-       CurrNode_Key1.next, CurrNode_Key2.next = CurrNode_Key2.next , CurrNode_Key1.next
+        prev_node2 = None
+        node2 = self.head
+        for _ in range(index2):
+            prev_node2 = node2
+            node2 = node2.next
 
+        if prev_node1:
+            prev_node1.next = node2
+        else:
+            self.head = node2
+
+        if prev_node2:
+            prev_node2.next = node1
+        else:
+            self.head = node1
+
+        node1.next, node2.next = node2.next, node1.next
 
 ll = LinkedList()
 while(1):
@@ -80,8 +86,7 @@ while(1):
    print("1. push data to list")
    print("2. pop data from list")
    print("3. swap data around")
-   print("4. display list")
-   print("5. exit")
+   print("4. exit")
    choice = input("Masukan Pilihan\n")
    if choice == "1":
          temp= str(input("masukan variabel yang akan di push\n"))
@@ -91,13 +96,9 @@ while(1):
            ll.pop()
 
    if choice == "3":
-         temp1=str(input("masukan data yang akan diswap\n"))
-         temp2=str(input("dan\n"))
-         ll.swap(temp1,temp2)
+         index1=int(input("masukan data yang akan diswap\n"))
+         index2=int(input("dan\n"))
+         ll.swap(index1,index2)
 
-   if choice == "5":
-           break
-       
    if choice == "4":
-       ll.print()
-       print("\n\n")
+           break
